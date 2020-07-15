@@ -23,6 +23,7 @@ export default function BooksView(props){
                             <em>Book: {res.title} from Author: {res.author}</em>
                             <em>Year: {res.year}</em>
                             <a href={res.download}>Download</a>
+                            {props.showDelete && <button type="button" onClick={() =>props.deleteBook(res.id)}>Delete</button>}
                         </TableLi>
                     )
                     )}

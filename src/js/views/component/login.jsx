@@ -55,8 +55,7 @@ export default class Login extends React.Component {
             if(this.userDetails[this.state.formData.username] == this.state.formData.password){
                 status = true;
                 setDataToLocalStorge('login', this.state.formData.username);
-                console.log(getDataFromLocalStorage('login'));
-                console.log('InsideSubmit', status);
+                this.props.history.push('/');
             } else {
                 let error = {
                     username: 'Username or password is incorrect',

@@ -18,7 +18,7 @@ class Header extends React.Component {
     }
     logout = () => {
         invalidateKey('login');
-        this.props.history.push('/');
+        this.props.history.replace('/login');
     }
     render(){
         

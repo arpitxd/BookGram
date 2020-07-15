@@ -1,9 +1,9 @@
 var path = require('path');
-
+var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: "./src/js/index",
+    entry: ["@babel/polyfill", "./src/js/index"],
     output: {
         path: path.join(__dirname, "/dist"),
         filename: "index_bundle.js",
@@ -24,6 +24,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html" //source html
         }),
+        new webpack.ProvidePlugin({
+            Promise: 'es6-promise-promise'
+        })
     ],
     resolve: {
         alias: {

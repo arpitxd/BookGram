@@ -14,14 +14,15 @@ export default function BooksView(props){
     };
     return (
         <React.Fragment>
-            {bookObj ? (
+            {bookObj && bookObj.data.length > 0 ? (
                 <React.Fragment>
+
                 <TableUl>
                     {bookObj.data.map((res, index) => (
-                        <TableLi key={`${res.Title}_${index}`}>
-                            <em>Book: {res.Title} from Author: {res.Author}</em>
+                        <TableLi key={`${res.title}_${index}`}>
+                            <em>Book: {res.title} from Author: {res.author}</em>
                             <em>Year: {res.year}</em>
-                            <a href={res.Download}>Download</a>
+                            <a href={res.download}>Download</a>
                         </TableLi>
                     )
                     )}
@@ -34,11 +35,9 @@ export default function BooksView(props){
                             pageCount={pageCount}
                             onPageChange={handlePageClick}
                             forcePage={props.currentPage}
-                            // containerClassName={'react-paginate'}
                             previousLinkClassName={'previous_page'}
                             nextLinkClassName={'next_page'}
                             disabledClassName={'disabled'}
-                            // hrefBuilder={this.buildPaginateHref}
                             activeClassName={'active'}
                         />
                     </ReactContainer>

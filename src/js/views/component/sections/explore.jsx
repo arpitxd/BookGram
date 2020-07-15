@@ -17,8 +17,10 @@ class Explore extends React.Component {
 
     }
     onChange = (e) => {
+        let error = '';
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            error: error
         });
         
     }
@@ -60,14 +62,12 @@ class Explore extends React.Component {
         
         return(
             <React.Fragment>
-                <div>Explore</div>
                 {this.state.showLoader && (
                     <Loading />
                 )}
                 <SearchDIV onChange={this.onChange}>
                     
-                    <CustomText type="text" placeholder="Search Book by Author, Year, Ttitle" name="query" />
-                    {this.state.error && <ErrorSpan>{this.state.error}</ErrorSpan>}
+                    <CustomText type="text" placeholder="Search Book by Author, Year, Ttitle" name="query" className={this.state.error && 'error'}/>
                     <CustomUl>
                         <CustomLi>
                             <input type="radio" name="category" value="title" defaultChecked={this.state.category == 'title' && true}/>

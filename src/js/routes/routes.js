@@ -9,17 +9,21 @@ import Login from 'basePath/views/component/login';
 import Arrivals from 'basePath/views/component/sections/arrivals';
 import Explore from 'basePath/views/component/sections/explore';
 import Collections from 'basePath/views/component/sections/collections';
+import Header from 'basePath/views/component/header';
 const isValid = isLoginValid();
 const routes = (
     <Router basename="/">
         {!isValid && window.top.location.pathname != '/login' &&  <Redirect to='/login' />}
         {isValid && window.top.location.pathname == '/login' &&  <Redirect to='/' />}
         <Switch>
-            <Route exact path="/" render={props => <Home {...props} />}/>
             <Route exact path="/login" render={props => <Login {...props} />} />
-            <Route exact path="/arrivals" render={props => <Arrivals {...props} />} />
-            <Route exact path="/explore" render={props => <Explore {...props} />} />
-            <Route exact path="/collections" render={props => <Collections {...props} />} />
+            
+            <Header>
+                <Route exact path="/" render={props => <Home {...props} />}/>
+                <Route exact path="/arrivals" render={props => <Arrivals {...props} />} />
+                <Route exact path="/explore" render={props => <Explore {...props} />} />
+                <Route exact path="/collections" render={props => <Collections {...props} />} />
+            </Header>
             <Route path="*" component={NotFound} />
         </Switch>
     </Router>

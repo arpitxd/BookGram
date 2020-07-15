@@ -26,6 +26,8 @@ const Ul = styled.ul`
 export const SearchDIV = styled.div`
     display: flex;
     flex: 0 0 50%;
+    margin-top: 20px;
+    height: 60px;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
     input[type='text'], button[type='button']{
         margin-left: 50px;
@@ -35,10 +37,11 @@ export const SearchDIV = styled.div`
 
     ul {
         flex-direction: row;
-        margin-right: 100px;
+        margin: 0px;
         li {
             flex-direction: row;
-            margin-left: 0px;
+            margin: 10px 0px 0px 10px;
+            
         }
     }
 

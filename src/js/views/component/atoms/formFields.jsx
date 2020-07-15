@@ -32,7 +32,7 @@ font-weight: 300;
 background: transparent;
 
 &:active,
-&:error,
+&.error,
 &:focus {
   border:1px solid #d0021b;
   text-align: left;

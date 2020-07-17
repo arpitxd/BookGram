@@ -1,17 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-const Button = styled.button`
-  cursor: pointer;
-  background: blue;
-  font-size: 16px;
-  border-radius: 5px;
-  color: white;
-  border: 2px solid blue;
-  flex: auto;
-  height: 44px;
-  padding: 0.25em 1em;
-  transition: 0.5s all ease-out;
-`;
+import { Button } from 'basePath/views/component/atoms/htmlTags';
 
 export function CustomButton(props){
     return (

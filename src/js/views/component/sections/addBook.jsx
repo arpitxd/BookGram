@@ -84,7 +84,7 @@ export default class AddBook extends React.Component {
                                 <li><input type="file" id="myFile" name="filename" onChange={e => this.onChangeEvent(e)} /></li>
                             </ul>
                             <ul>
-                                <li><button type="submit">Upload</button></li>
+                                <li><CustomButton type="submit" value="Upload" /></li>
                             </ul>
                         </form>
                     </Modal>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {setDataToLocalStorge, getDataFromLocalStorage} from 'basePath/views/component/common/utilities';
-import { CustomLi, CustomUl, SearchDIV } from 'basePath/views/component/atoms/htmlTags';
+import { CustomLi, CustomUl, SearchDIV, Select, Label } from 'basePath/views/component/atoms/htmlTags';
 import { CustomButton, CustomText } from 'basePath/views/component/atoms/formFields';
 import BooksView from 'basePath/views/component/common/booksView';
 import {SearchBooksFromCollections, SortBooks } from 'basePath/views/component/common/bookSearch';
@@ -124,22 +124,22 @@ class Collections extends React.Component {
                     </CustomUl>
                     <CustomUl>
                         <CustomLi>
-                            <label>Sort by:</label>
-                            <select name="sort" onChange={e => this.sort(e)} style={{height: '20px'}}>
+                            <Label>Sort by:</Label>
+                            <Select name="sort" onChange={e => this.sort(e)}>
                                 <option value=''>Sort By</option>
                                 <option value="title">Title</option>
                                 <option value="author">Author</option>
                                 <option value="size"> File Size</option>
                                 <option value="rating">Ratings</option>
                                 <option value="tag">Tags</option>
-                            </select>
+                            </Select>
                         </CustomLi>
                         <CustomLi>
-                            <label>Order:</label>
-                            <select name="order" onChange={e => this.sort(e)} style={{height: '20px'}}>
+                            <Label>Order:</Label>
+                            <Select name="order" onChange={e => this.sort(e)}>
                                 <option value="1">Ascending</option>
                                 <option value="2">Descending</option>
-                            </select>
+                            </Select>
                         </CustomLi>
                     </CustomUl>
                     <CustomButton onClick={this.onSubmit} value="Search" />

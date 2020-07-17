@@ -1,7 +1,6 @@
 import React from 'react';
 import { CustomButton, CustomText } from 'basePath/views/component/atoms/formFields';
-import { CustomUl, CustomLi, ErrorSpan } from 'basePath/views/component/atoms/htmlTags';
-
+import { CustomUl, CustomLi, ErrorSpan, LoginDiv, BodyDiv } from 'basePath/views/component/atoms/htmlTags';
 import {setDataToLocalStorge, getDataFromLocalStorage} from 'basePath/views/component/common/utilities';
 export default class Login extends React.Component {
     constructor(props) {
@@ -80,21 +79,26 @@ export default class Login extends React.Component {
     }
     render() {
         return (
-            <React.Fragment>
-                <form action="javascript:void(0);" onSubmit={() => this.submit()}>
-                <CustomUl>
-                    <CustomLi>
-                        <CustomText type="text" id="id_user_name" placeholder={'Username'} onChange={this.handleChange} name="username" error={this.state.error.username && true} />
-                        {this.state.error.username && <ErrorSpan>{this.state.error.username}</ErrorSpan>}
-                    </CustomLi>
-                    <CustomLi>
-                        <CustomText type="password" id="id_password" placeholder={'Password'} onChange={this.handleChange} name="password" error={this.state.error.password && true}/>
-                        {this.state.error.password && <ErrorSpan>{this.state.error.password}</ErrorSpan>}    
-                    </CustomLi>
-                    <CustomLi><CustomButton type="submit" value="Login" /></CustomLi>
-                </CustomUl>
-                </form>
-            </React.Fragment>
+            <BodyDiv>
+                <LoginDiv>
+                    <span style={{marginLeft: '40%'}}>
+                        <strong>BookGram</strong>
+                    </span>
+                    <form action="javascript:void(0);" onSubmit={() => this.submit()}>
+                    <CustomUl>
+                        <CustomLi>
+                            <CustomText type="text" id="id_user_name" placeholder={'Username'} onChange={this.handleChange} name="username" error={this.state.error.username && true} />
+                            {this.state.error.username && <ErrorSpan>{this.state.error.username}</ErrorSpan>}
+                        </CustomLi>
+                        <CustomLi>
+                            <CustomText type="password" id="id_password" placeholder={'Password'} onChange={this.handleChange} name="password" error={this.state.error.password && true}/>
+                            {this.state.error.password && <ErrorSpan>{this.state.error.password}</ErrorSpan>}    
+                        </CustomLi>
+                        <CustomLi><CustomButton type="submit" value="Login" /></CustomLi>
+                    </CustomUl>
+                    </form>
+                </LoginDiv>
+            </BodyDiv>
         );
     }
 }

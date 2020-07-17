@@ -68,7 +68,7 @@ async function searchBooks(req) {
                 obj.download = 'http://gen.lib.rus.ec/book/index.php?md5=' + data[n].md5.toLowerCase();
                 responseData.push(obj);
             }
-            mcache.put(cacheKey, responseData, 24*1000*60*60);
+            mcache.put(cacheKey, responseData, 1000*60*60);
             let pageCount = Math.ceil(responseData.length / 20);
             responseData = responseData.slice(page * 20, (page * 20) + 20);
             let responseObj = {

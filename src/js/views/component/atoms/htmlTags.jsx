@@ -1,21 +1,60 @@
 import styled from 'styled-components';
 import React from 'react';
 
-export const TableUl = styled.ul`
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+export const Button = styled.button`
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.21);
+  border-radius: 4px;
+  width: auto;
+  margin: 10px;
+  padding: 10px 13px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  font-weight: 400;
+  background-image: linear-gradient(136deg, #a296d9 0%, #7faee0 100%);
 `;
-export const TableLi = styled.li`
-    padding: 4px 0;
-    margin: 3px 0 3px 10px;
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 30%;
-    border: 1px solid;
-    border-radius: 5px;
+export const AnchorButton = styled.span`
+    border-radius: 4px;
+    color: #5364c4 !important;
+    border: solid 1px #d7d5d5!important;
+    font-size: 14px;
+    padding: 5px;
+    float: right;
+    text-align: center;
+    cursor: pointer;
 `;
+export const Select = styled.select`
+    background: white;
+    1px solid #c2c2c2;
+    border-radius: 4px;
+    padding: 5px;
+    height: 30px;
+    margin-top: -5px;
+`;
+export const Label = styled.label`
+    margin-right: 10px;
+`;
+
+export const LoginDiv = styled.div`
+    width: 400px;
+    top: 30%;
+    left: 35%;
+    position: fixed;
+    background: white;
+    border-radius: 4px;
+    padding: 40px;
+    box-shadow: 0 0 16px 0 rgba(135,142,172,0.2);
+`;
+export const BodyDiv = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(244, 245, 245);
+    overflow: hidden;
+`;
+
+
 
 const Ul = styled.ul`
   list-style: none;
@@ -84,25 +123,6 @@ ErrorSpan.defaultProps = {
     children: 'Error'
 }
 
-
-export const Table = styled.table`
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;`;
-     
-export const TD =  styled.td`
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  `;
-
-export const  TH =  styled.th`
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  `;
-
-
 export const Overlay = styled.div`
     position: absolute;
     left: 0;
@@ -112,27 +132,8 @@ export const Overlay = styled.div`
     z-index: 995;
     background: rgba(0, 0, 0, 0.5);
 `;
-  export const Loader = styled.div`
-        border: 6px solid #f3f3f3;
-        border-radius: 50%;
-        margin: 20% 44%;
-        border-top: 6px solid #3498db;
-        width: 60px;
-        height: 60px;
-        -webkit-animation: spin 2s linear infinite; /* Safari */
-        animation: spin 2s linear infinite;
-        @-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
-          }
-          
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-  `;
-
-  export const ReactContainer = styled.div`
+  
+export const ReactContainer = styled.div`
     padding: 15px 5px;
     display: flex;
     flex-direction: row;

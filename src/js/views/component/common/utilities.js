@@ -35,7 +35,7 @@ export function isLoginValid() {
     let status = false;
     if(getDataFromLocalStorage('login')){
         const lastLoggedInTime = getDataFromLocalStorage('login').time;
-        status = (currentTime -  lastLoggedInTime)/ (1000 * 3600 * 24) > 1 ? false: true; 
+        status = (currentTime -  lastLoggedInTime)/ (1000 * 3600) > 1 ? false: true; 
     }
     return status;
 }

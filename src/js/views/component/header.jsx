@@ -9,7 +9,6 @@ const BookGramHeader = styled.div`
     background: #fff;
     box-shadow: 0 4px 4px 0 rgba(43,43,43,0.15);
     width: 100%;
-    
     height: 55px;
     display: flex;
 `;
@@ -27,6 +26,13 @@ const NavLi = styled.li`
     margin-right 50px;
     a {
         text-decoration: none;
+        font-weight: 700;
+        color: #000;
+    }
+    a:hover, a:focus {
+        background-color: #fff;
+        
+        color: #5364c4;
     }
     
 `;

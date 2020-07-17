@@ -10,22 +10,28 @@ import Arrivals from 'basePath/views/component/sections/arrivals';
 import Explore from 'basePath/views/component/sections/explore';
 import Collections from 'basePath/views/component/sections/collections';
 import Header from 'basePath/views/component/header';
+import ErrorBoundary from 'basePath/views/component/common/ErrorBoundary';
 const isValid = isLoginValid();
 const routes = (
     <Router basename="/">
         {!isValid && window.top.location.pathname != '/login' &&  <Redirect to='/login' />}
         {isValid && window.top.location.pathname == '/login' &&  <Redirect to='/' />}
+        
         <Switch>
+
             <Route exact path="/login" render={props => <Login {...props} />} />
             
             <Header>
-                <Route exact path="/" render={props => <Home {...props} />}/>
-                <Route exact path="/arrivals" render={props => <Arrivals {...props} />} />
-                <Route exact path="/explore" render={props => <Explore {...props} />} />
-                <Route exact path="/collections" render={props => <Collections {...props} />} />
+                <ErrorBoundary>
+                    <Route exact path="/" render={props => <Home {...props} />}/>
+                    <Route exact path="/arrivals" render={props => <Arrivals {...props} />} />
+                    <Route exact path="/explore" render={props => <Explore {...props} />} />
+                    <Route exact path="/collections" render={props => <Collections {...props} />} />
+                </ErrorBoundary>
             </Header>
             <Route path="*" component={NotFound} />
         </Switch>
+        
     </Router>
 );
 

@@ -51,7 +51,7 @@ class Header extends React.Component {
         this.props.history.replace('/login');
     }
     render(){
-        let userName = getDataFromLocalStorage('login').value;
+        let userName = getDataFromLocalStorage('login') ? getDataFromLocalStorage('login').value : 'User';
         return (
             <div>
                 <BookGramHeader>

@@ -55,6 +55,16 @@ export default class Login extends React.Component {
             if(this.userDetails[this.state.formData.username] == this.state.formData.password){
                 status = true;
                 setDataToLocalStorge('login', this.state.formData.username);
+                let userDetailObj = getDataFromLocalStorage(this.state.formData.username);
+                if(!userDetailObj) {
+                    let userObj = {
+                        bookObj: {
+                            readingStatus: {},
+                            ratings: {}
+                        }
+                    }
+                    setDataToLocalStorge(this.state.formData.username, userObj);
+                }
                 this.props.history.push('/');
             } else {
                 let error = {
@@ -71,7 +81,7 @@ export default class Login extends React.Component {
     render() {
         return (
             <React.Fragment>
-
+                <form action="javascript:void(0);" onSubmit={() => this.submit()}>
                 <CustomUl>
                     <CustomLi>
                         <CustomText type="text" id="id_user_name" placeholder={'Username'} onChange={this.handleChange} name="username" error={this.state.error.username && true} />
@@ -81,8 +91,9 @@ export default class Login extends React.Component {
                         <CustomText type="password" id="id_password" placeholder={'Password'} onChange={this.handleChange} name="password" error={this.state.error.password && true}/>
                         {this.state.error.password && <ErrorSpan>{this.state.error.password}</ErrorSpan>}    
                     </CustomLi>
-                    <CustomLi><CustomButton onClick={() => this.submit()} value="Login" /></CustomLi>
+                    <CustomLi><CustomButton type="submit" value="Login" /></CustomLi>
                 </CustomUl>
+                </form>
             </React.Fragment>
         );
     }

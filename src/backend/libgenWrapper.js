@@ -86,24 +86,27 @@ async function searchBooks(req) {
 
 async function getLatestBook() {
     try {
-        let data = await getLastestBookApi();
-        let n = data.length
-        let responseData = [];
-        while (n--){
-            let obj = {};
-            obj.title = data[n].title;
-            obj.author = data[n].author;
-            obj.year = data[n].year;
-            obj.desc = data[n].descr;
-            obj.download = 'http://gen.lib.rus.ec/book/index.php?md5=' + data[n].md5.toLowerCase();
-            responseData.push(obj);
+        let cacheKey = `latest_book`;
+        let responseData = mcache.get(cacheKey);
+        if(!responseData){
+            let data = await getLastestBookApi();
+            let n = data.length
+            responseData = [];
+            while (n--){
+                let obj = {};
+                obj.title = data[n].title;
+                obj.author = data[n].author;
+                obj.year = data[n].year;
+                obj.desc = data[n].descr;
+                obj.download = 'http://gen.lib.rus.ec/book/index.php?md5=' + data[n].md5.toLowerCase();
+                responseData.push(obj);
+            }
+            mcache.put(cacheKey, responseData, 1000*60*30);
         }
-        
         let responseObj = {
             data: responseData,
             page: 1,
             pageCount: 1
-
         }
         return responseObj;
     } catch (err) {

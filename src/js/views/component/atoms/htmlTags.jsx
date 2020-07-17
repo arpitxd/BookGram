@@ -30,14 +30,15 @@ export const SearchDIV = styled.div`
     height: 60px;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
     input[type='text'], button[type='button']{
-        margin-left: 50px;
-        flex: 0 0 24%;
+        flex: 0 0 15%;
     }
-    
-
+    .searchbar {
+        margin-left: 40px;
+    }
     ul {
         flex-direction: row;
         margin: 0px;
+        margin-right: 50px;
         li {
             flex-direction: row;
             margin: 10px 0px 0px 10px;

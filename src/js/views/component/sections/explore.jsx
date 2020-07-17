@@ -3,6 +3,7 @@ import { CustomButton, CustomText } from 'basePath/views/component/atoms/formFie
 import { ErrorSpan, CustomLi, CustomUl, SearchDIV } from 'basePath/views/component/atoms/htmlTags';
 import {getEvent} from 'basePath/views/component/common/crudoperation';
 import BooksView from 'basePath/views/component/common/booksView';
+import AddBook from 'basePath/views/component/sections/addBook';
 import Loading from 'basePath/views/component/common/loader';
 class Explore extends React.Component {
     constructor(props){
@@ -67,7 +68,7 @@ class Explore extends React.Component {
                 )}
                 <SearchDIV onChange={this.onChange}>
                     
-                    <CustomText type="text" placeholder="Search Book by Author, Year, Ttitle" name="query" className={this.state.error && 'error'}/>
+                    <CustomText type="text" placeholder="Search Book by Author, Year, Ttitle" name="query" className={`searchbar ${this.state.error && 'error'}`}/>
                     <CustomUl>
                         <CustomLi>
                             <input type="radio" name="category" value="title" defaultChecked={this.state.category == 'title' && true}/>
@@ -108,10 +109,12 @@ class Explore extends React.Component {
 
                     </CustomUl>
                     <CustomButton onClick={this.onSubmit} value="Search" />
+                    <AddBook />
                 </SearchDIV>
                 {this.state.isLoaded && (
                     <BooksView data={this.state.data} currentPage={this.state.currentPage} updateCurrentPage={this.updateCurrentPage}/>
                 )}
+                
             </React.Fragment>
         );
     }

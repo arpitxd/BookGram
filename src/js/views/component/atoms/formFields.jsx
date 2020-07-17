@@ -15,10 +15,12 @@ const Button = styled.button`
 
 export function CustomButton(props){
     return (
-        <Button type="button" onClick={props.onClick}>{props.value}</Button>
+        <Button type={props.type} onClick={props.onClick} {...props}>{props.value}</Button>
     );
 }
-
+CustomButton.defaultProps= {
+  type: 'button'
+}
 const Input = styled.input`
 border: 1px solid #e7e7e7;
 padding: 10px 35px 10px 10px;

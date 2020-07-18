@@ -14,7 +14,14 @@ module.exports = {
             test: /\.jsx?$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
-        }
+        },
+        {
+            test: /\.css$/,
+            use: [
+                { loader: 'style-loader' },
+                { loader: 'css-loader' },
+            ]
+        },
         ]
     },
     devServer: {
@@ -31,6 +38,7 @@ module.exports = {
     resolve: {
         alias: {
             basePath: path.resolve('./src/js'),
+            cssPath: path.resolve('./css'),
         },
         //extensions that should be used to resolve modules
         extensions: ['.js', '.jsx']

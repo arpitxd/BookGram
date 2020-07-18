@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { ErrorSpan, ReactContainer, AnchorButton, Select, Label } from 'basePath/views/component/atoms/htmlTags';
-
+import AddBook from 'basePath/views/component/sections/addBook';
 import ReactPaginate from 'react-paginate';
 const BooksUl = styled.ul`
     list-style: none !important;
@@ -63,6 +63,13 @@ const InnerBookLi = styled.li`
     width: 40%;
     margin-right: 10px;
 `;
+const BookCountDiv = styled.div`
+    width: 100%;
+    height: 45px;
+    background-color: #f4f5f5;
+    padding-top: 20px;
+    padding-left: 50px;
+`;
 export default function BooksView(props){
     let bookObj = props.data;
     let pageCount = bookObj && bookObj.pageCount;
@@ -76,6 +83,14 @@ export default function BooksView(props){
     };
     return (
         <React.Fragment>
+            <BookCountDiv>
+                <strong>
+                    {bookObj.count} books found for {props.query}
+                </strong>
+                {!props.collectionPage && (
+                    <AddBook />
+                )}
+            </BookCountDiv>
             {bookObj && bookObj.data.length > 0 ? (
                 <React.Fragment>
 
@@ -86,6 +101,14 @@ export default function BooksView(props){
                                 <li>
                                     <BookHeading>{res.title}</BookHeading>
                                     <span>Author: {res.author}</span>
+                                </li>
+                                <li>
+                                    <React.Fragment>
+                                        <ul style={{display: 'flex', listStyle: 'none',position: 'absolute', right: '136px'}}>
+                                            <li><Label>Rating:</Label></li>
+                                            <li><strong>{res.rating || 0}</strong></li>
+                                        </ul>
+                                    </React.Fragment>
                                 </li>
                             </InnerBookUl>
                             <InnerBookUl>
@@ -110,11 +133,9 @@ export default function BooksView(props){
                                             <InnerBookLi>
                                                 {props.bookObj.ratings[res.id] ? (
                                                     <React.Fragment>
-                                                        <ul style={{display: 'flex', listStyle: 'none', marginLeft: '-104px', marginBottom: '10px'}}>
+                                                        <ul style={{display: 'flex', listStyle: 'none', marginBottom: '10px', position: 'absolute', right: '108px'}}>
                                                             <li><Label>Your Rating:</Label></li>
                                                             <li style={{marginRight: '30px'}}><strong>{props.bookObj.ratings[res.id]}</strong></li>
-                                                            <li><Label>Overall Rating:</Label></li>
-                                                            <li><strong>{res.rating || 0}</strong></li>
                                                         </ul>
                                                     </React.Fragment>
                                                 ) :(
@@ -125,7 +146,7 @@ export default function BooksView(props){
                                                             </li>
                                                             <li>
                                                                 <Select name="ratings" onChange={(e) => props.updateStatus(e, res.id)} value=''>
-                                                                    <option value=''>select</option>
+                                                                    <option value=''>Select</option>
                                                                     <option value={1}>1</option>
                                                                     <option value={2}>2</option>
                                                                     <option value={3}>3</option>
@@ -176,7 +197,9 @@ export default function BooksView(props){
                 }
                 </React.Fragment>
             ) : (
+                <div style={{margin: '10% 45%'}}>
                 <ErrorSpan>No Content Found</ErrorSpan>
+                </div>
             )}
             
         </React.Fragment>

@@ -26,17 +26,13 @@ export function SearchBooksFromCollections(key, type) {
     let searchObj = {
         data: booksArr,
         pageCount: 1,
-        page: 1
+        page: 1,
+        count: booksArr.length
     }
     return searchObj;
 }
 
-export function SortBooks(sortKey){
-    const booksObj = getDataFromLocalStorage('collections');
-    let booksArr = [];
-    if(booksObj){
-        booksArr = [...booksObj.value];
-    }
+export function SortBooks(sortKey, booksArr){
     if(booksArr.length > 0){
         let keyList = [];
         let keyMap = {};
@@ -62,7 +58,9 @@ export function SortBooks(sortKey){
     let searchObj = {
         data: booksArr,
         pageCount: 1,
-        page: 1
+        page: 1,
+        count: booksArr.count
+
     }
     return searchObj;
 }

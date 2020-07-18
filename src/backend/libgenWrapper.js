@@ -39,11 +39,13 @@ async function searchBooks(req) {
     let responseData = mcache.get(cacheKey);
     if(responseData){
         let pageCount = Math.ceil(responseData.length / 20);
+        let count = responseData.length;
         responseData = responseData.slice(page * 10, (page * 10) + 20);
         let responseObj = {
             data: responseData,
             page: page,
-            pageCount: pageCount
+            pageCount: pageCount,
+            count: count
         }
         return responseObj;
     } else {
@@ -69,12 +71,14 @@ async function searchBooks(req) {
                 responseData.push(obj);
             }
             mcache.put(cacheKey, responseData, 1000*60*60);
-            let pageCount = Math.ceil(responseData.length / 20);
+            let count = responseData.length;
+            let pageCount = Math.ceil(count / 20);
             responseData = responseData.slice(page * 20, (page * 20) + 20);
             let responseObj = {
                 data: responseData,
                 page: page,
-                pageCount: pageCount
+                pageCount: pageCount,
+                count: count 
 
             }
             return responseObj;
@@ -88,6 +92,7 @@ async function getLatestBook() {
     try {
         let cacheKey = `latest_book`;
         let responseData = mcache.get(cacheKey);
+        
         if(!responseData){
             let data = await getLastestBookApi();
             let n = data.length
@@ -106,12 +111,13 @@ async function getLatestBook() {
         let responseObj = {
             data: responseData,
             page: 1,
-            pageCount: 1
+            pageCount: 1,
+            count: responseData.length
         }
         return responseObj;
     } catch (err) {
         console.error(err)
-        return [];
+        return {};
     }
 }
 

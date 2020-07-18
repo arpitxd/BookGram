@@ -5,7 +5,7 @@ export const Button = styled.button`
   box-shadow: 0 4px 4px 0 rgba(0,0,0,0.21);
   border-radius: 4px;
   width: auto;
-  margin: 10px;
+  margin: 5px 10px 20px 0px;
   padding: 10px 13px;
   font-size: 14px;
   color: #fff;
@@ -65,8 +65,8 @@ const Ul = styled.ul`
 export const SearchDIV = styled.div`
     display: flex;
     flex: 0 0 50%;
-    margin-top: 20px;
     height: 60px;
+    padding-top: 20px;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
     input[type='text'], button[type='button']{
         flex: 0 0 15%;

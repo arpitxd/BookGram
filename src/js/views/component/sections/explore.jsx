@@ -3,17 +3,19 @@ import { CustomButton, CustomText } from 'basePath/views/component/atoms/formFie
 import { ErrorSpan, CustomLi, CustomUl, SearchDIV } from 'basePath/views/component/atoms/htmlTags';
 import {getEvent} from 'basePath/views/component/common/crudoperation';
 import BooksView from 'basePath/views/component/common/booksView';
-import AddBook from 'basePath/views/component/sections/addBook';
+import 'cssPath/explore.css';
 import Loading from 'basePath/views/component/common/loader';
+import queryString from 'query-string';
 class Explore extends React.Component {
     constructor(props){
         super(props);
+        let queryStringMap = queryString.parse(top.window.location.search);
         this.state = {
-            query: '',
-            category: 'title',
+            query: queryStringMap.q || '',
+            category: queryStringMap.category || 'title',
             isLoaded: false,
             data: [],
-            currentPage: 1
+            currentPage: queryStringMap.page || 1
         };
 
     }
@@ -30,7 +32,6 @@ class Explore extends React.Component {
             currentPage: currentPage,
             isLoaded: false 
         }, () => {
-            console.log(this.state.currentPage)
             this.getBookResult();
         });
     }
@@ -41,7 +42,6 @@ class Explore extends React.Component {
         let that = this;
         let url = `http://localhost:9090/books?q=${this.state.query}&category=${this.state.category}&page=${this.state.currentPage}`;
         getEvent(url).then(res => {
-            console.log(res);    
             that.setState({
                     isLoaded: true,
                     data: res.data,
@@ -57,7 +57,27 @@ class Explore extends React.Component {
             this.setState({error: 'Field is required'});
             return;
         }
+        let pathName = top.window.location.pathname;
+        this.setState({
+            currentPage: 1
+        }, this.getBookResult());
+        this.props.history.push(`${pathName}?q=${this.state.query}&category=${this.state.category}`);
+        
+    }
+    componentDidMount() {
+        
+        window.onscroll = function() {myFunction()};
+        var searchbar = document.getElementById("id_search_div");
+        var sticky = searchbar.offsetTop;
+        var myFunction = function() {
+            if (window.pageYOffset >= sticky) {
+                searchbar.classList.add('sticky');
+            } else {
+                searchbar.classList.remove('sticky');
+            }
+        }
         this.getBookResult();
+        
     }
     render() {
         
@@ -66,9 +86,9 @@ class Explore extends React.Component {
                 {this.state.showLoader && (
                     <Loading />
                 )}
-                <SearchDIV onChange={this.onChange}>
+                <SearchDIV onChange={this.onChange} id="id_search_div">
                     
-                    <CustomText type="text" placeholder="Search Book by Author, Year, Ttitle" name="query" className={`searchbar ${this.state.error && 'error'}`}/>
+                    <CustomText type="text" placeholder="Search Book by Author, Year, Ttitle" name="query" className={`searchbar ${this.state.error && 'error'}`} defaultValue={this.state.query}/>
                     <CustomUl>
                         <CustomLi>
                             <input type="radio" name="category" value="title" defaultChecked={this.state.category == 'title' && true}/>
@@ -109,10 +129,9 @@ class Explore extends React.Component {
 
                     </CustomUl>
                     <CustomButton onClick={this.onSubmit} value="Search" />
-                    <AddBook />
                 </SearchDIV>
                 {this.state.isLoaded && (
-                    <BooksView data={this.state.data} currentPage={this.state.currentPage} updateCurrentPage={this.updateCurrentPage}/>
+                    <BooksView data={this.state.data} currentPage={this.state.currentPage} query={this.state.query} updateCurrentPage={this.updateCurrentPage}/>
                 )}
                 
             </React.Fragment>

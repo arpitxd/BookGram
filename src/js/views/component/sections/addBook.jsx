@@ -68,7 +68,7 @@ export default class AddBook extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <CustomButton type="button" onClick={this.togglePopup} value="Add Book" style={{marginLeft: '50px' }}/>
+                <CustomButton type="button" onClick={this.togglePopup} value="Add Book" style={{marginRight: '7.5%',marginTop: '-0.5%', float: 'right' }}/>
                 {this.state.showMoreDetailForm && (
                     <Modal modalHeader="Enter Book Details" closeCallback={this.togglePopup}>
                         <form action="javascript:void(0);" onSubmit={(e) => this.uploadBook(e)}>

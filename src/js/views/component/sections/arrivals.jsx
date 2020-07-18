@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getLatestBook} from 'basePath/state/actions/latestBooks/lastestbook-action';
 import BooksView from 'basePath/views/component/common/booksView';
-import AddBook from 'basePath/views/component/sections/addBook';
 import Loading from 'basePath/views/component/common/loader';
 class Arrivals extends React.Component {
     constructor(props){
@@ -21,11 +20,10 @@ class Arrivals extends React.Component {
         return(
             <React.Fragment>
                 {isLoaded ? (
-                    <BooksView data={data} />
+                    <BooksView data={data} query="latest"/>
                 ) : (
                     <Loading />
                 )}
-                <AddBook />
             </React.Fragment>
         );
     }

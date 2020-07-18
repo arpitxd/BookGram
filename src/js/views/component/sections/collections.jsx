@@ -1,14 +1,17 @@
 import React from 'react';
-import {setDataToLocalStorge, getDataFromLocalStorage} from 'basePath/views/component/common/utilities';
+import {setDataToLocalStorge, getDataFromLocalStorage, getUrlFromQueryMap} from 'basePath/views/component/common/utilities';
 import { CustomLi, CustomUl, SearchDIV, Select, Label } from 'basePath/views/component/atoms/htmlTags';
 import { CustomButton, CustomText } from 'basePath/views/component/atoms/formFields';
 import BooksView from 'basePath/views/component/common/booksView';
 import {SearchBooksFromCollections, SortBooks } from 'basePath/views/component/common/bookSearch';
+import queryString from 'query-string';
 class Collections extends React.Component {
     constructor(props){
         super(props);
+        let queryStringMap = queryString.parse(top.window.location.search);
         const booksObj = getDataFromLocalStorage('collections');
         let booksArr = [];
+        this.pathName = top.window.location.pathname;
         if(booksObj){
             booksArr = booksObj.value;
         }
@@ -16,10 +19,13 @@ class Collections extends React.Component {
             collectionObj: {
                 data: booksArr,
                 pageCount: 1,
-                page: 1
+                page: 1,
+                count: booksArr.length
             },
-            category: 'title',
-            query: ''
+            category: queryStringMap.category || 'title',
+            query: queryStringMap.q || '',
+            sort: queryStringMap.sort || '',
+            order: queryStringMap.order || ''
 
         }
         this.userName = getDataFromLocalStorage('login').value;
@@ -28,12 +34,13 @@ class Collections extends React.Component {
         let filteredObj = SearchBooksFromCollections(this.state.query, this.state.category);
         this.setState({
             collectionObj: filteredObj
-        })
+        });
+        
+        this.props.history.push(`${this.pathName}?q=${this.state.query}&category=${this.state.category}`);
     }
     deleteBook = (id) => {
         let booksArr = [...this.state.collectionObj.data];
         for(let index in booksArr){
-            console.log(index);
             if(booksArr[index].id == id){
                 booksArr.splice(index, 1);
                 break;
@@ -43,7 +50,8 @@ class Collections extends React.Component {
         collectionObj = {
             data: booksArr,
             pageCount: 1,
-            page: 1
+            page: 1,
+            count: booksArr.length
         }
         setDataToLocalStorge('collections', booksArr);
         this.setState({
@@ -83,7 +91,8 @@ class Collections extends React.Component {
             collectionObj = {
                 data: booksArr,
                 pageCount: 1,
-                page: 1
+                page: 1,
+                count: booksArr.length
             }
             setDataToLocalStorge('collections', booksArr);
             this.setState({
@@ -93,25 +102,46 @@ class Collections extends React.Component {
             this.forceUpdate();
         }
     }
-    sort = (e) => {
+    sort = (targetName, value) => {
         let collectionObj = this.state.collectionObj;
-        if(e.target.name == 'order'){
+        if(targetName == 'order'){
             collectionObj.data = collectionObj.data.reverse();
         } else {
-            collectionObj = SortBooks(e.target.value);
+            collectionObj = SortBooks(value, this.state.collectionObj.data);
         }
         this.setState({
             collectionObj: collectionObj
         });
     }
-
+    submitSort = (e) => {
+        let queryStringMap = queryString.parse(top.window.location.search);
+        queryStringMap[e.target.name] = e.target.value;
+        let url = getUrlFromQueryMap(queryStringMap);
+        this.sort(e.target.name, e.target.value);
+        this.props.history.push(url);
+       
+    }
+    componentDidMount() {
+        if(this.state.query){
+            let filteredObj = SearchBooksFromCollections(this.state.query, this.state.category);
+            this.setState({
+                collectionObj: filteredObj
+            });
+        }
+        if (this.state.sort){
+            this.sort('sort', this.state.sort);
+        }
+        if (this.state.order){
+            this.sort('order', this.state.order);
+        }
+    }
     render() {
         let bookObj = getDataFromLocalStorage(this.userName).value.bookObj;
         return(
             <React.Fragment>
-                <SearchDIV onChange={this.onChange}>
+                <SearchDIV onChange={this.onChange} value={this.state.query}>
                     
-                    <CustomText type="text" placeholder="Search Book by Author, Year, Ttitle" name="query" className={`searchbar ${this.state.error && 'error'}`}/>
+                    <CustomText type="text" placeholder="Search Book by Author, Year, Ttitle" name="query" className={`searchbar ${this.state.error && 'error'}`} defaultValue={this.state.query}/>
                     <CustomUl>
                         <CustomLi>
                             <input type="radio" name="category" value="title" defaultChecked={this.state.category == 'title' && true}/>
@@ -125,7 +155,7 @@ class Collections extends React.Component {
                     <CustomUl>
                         <CustomLi>
                             <Label>Sort by:</Label>
-                            <Select name="sort" onChange={e => this.sort(e)}>
+                            <Select name="sort" onChange={e => this.submitSort(e)}>
                                 <option value=''>Sort By</option>
                                 <option value="title">Title</option>
                                 <option value="author">Author</option>
@@ -136,7 +166,7 @@ class Collections extends React.Component {
                         </CustomLi>
                         <CustomLi>
                             <Label>Order:</Label>
-                            <Select name="order" onChange={e => this.sort(e)}>
+                            <Select name="order" onChange={e => this.submitSort(e)}>
                                 <option value="1">Ascending</option>
                                 <option value="2">Descending</option>
                             </Select>
@@ -144,7 +174,14 @@ class Collections extends React.Component {
                     </CustomUl>
                     <CustomButton onClick={this.onSubmit} value="Search" />
                 </SearchDIV>
-                <BooksView data={this.state.collectionObj} collectionPage={true} deleteBook={this.deleteBook} bookObj={bookObj} updateStatus={this.updateStatus}/>
+                <BooksView 
+                    data={this.state.collectionObj}
+                    collectionPage={true}
+                    query={this.state.query}
+                    deleteBook={this.deleteBook}
+                    bookObj={bookObj}
+                    updateStatus={this.updateStatus}
+                />
             </React.Fragment>
         );
     }

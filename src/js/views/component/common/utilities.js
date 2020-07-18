@@ -43,3 +43,16 @@ export function isLoginValid() {
 export function invalidateKey(key) {
     manuiplationObject.removeKey(key);
 }
+
+export function getUrlFromQueryMap(queryMap){
+    let prefixUrl = '';
+    for (let query of Object.keys(queryMap)){
+        prefixUrl +=  `${query}=${queryMap[query]}&`;
+    }
+    prefixUrl = prefixUrl.slice(0, -1);
+    let url = top.window.location.pathname;
+    if (prefixUrl.length > 0){
+        url = url + '?' + prefixUrl;
+    }
+    return url;
+}

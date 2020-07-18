@@ -5,6 +5,9 @@ import {invalidateKey} from 'basePath/views/component/common/utilities';
 import { NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import {getDataFromLocalStorage} from 'basePath/views/component/common/utilities';
+
+
+//this class will give nav & header UI 
 const BookGramHeader = styled.div`
     background: #fff;
     box-shadow: 0 4px 4px 0 rgba(43,43,43,0.15);

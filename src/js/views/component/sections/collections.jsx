@@ -5,6 +5,8 @@ import { CustomButton, CustomText } from 'basePath/views/component/atoms/formFie
 import BooksView from 'basePath/views/component/common/booksView';
 import {SearchBooksFromCollections, SortBooks } from 'basePath/views/component/common/bookSearch';
 import queryString from 'query-string';
+
+//this class will give books from local storage which was added by add book
 class Collections extends React.Component {
     constructor(props){
         super(props);
@@ -35,10 +37,10 @@ class Collections extends React.Component {
         this.setState({
             collectionObj: filteredObj
         });
-        
+        //updating url on the basis of current searching it will help for obtating same data after page refresh
         this.props.history.push(`${this.pathName}?q=${this.state.query}&category=${this.state.category}`);
     }
-    deleteBook = (id) => {
+    deleteBook = (id) => { //delete book from local storage 
         let booksArr = [...this.state.collectionObj.data];
         for(let index in booksArr){
             if(booksArr[index].id == id){
@@ -53,7 +55,7 @@ class Collections extends React.Component {
             page: 1,
             count: booksArr.length
         }
-        setDataToLocalStorge('collections', booksArr);
+        setDataToLocalStorge('collections', booksArr); //updating books data in local storage through generic set data method
         this.setState({
             collectionObj: collectionObj
         })
@@ -66,13 +68,15 @@ class Collections extends React.Component {
         });
     }
     updateStatus = (e, id) => {
+        //this method will help updating rating, and book reading status. This method is generic for both Rating & Book Reading Status
+        //this method is will update status for reading & and rating for user specific i.e it wont affect other user book and rating status
         let userDetailObj = getDataFromLocalStorage(this.userName).value;
         let bookObj = userDetailObj.bookObj;
         let newUpdateObject = bookObj[e.target.name] || {};
         newUpdateObject[id] = e.target.value;
         bookObj[e.target.name] = newUpdateObject;
         userDetailObj.bookObj = bookObj;
-        setDataToLocalStorge(this.userName, userDetailObj);
+        setDataToLocalStorge(this.userName, userDetailObj); //set data into local storage. 
         if(e.target.name == 'ratings'){
             let booksArr = [...this.state.collectionObj.data];
             for(let index in booksArr){
@@ -102,6 +106,7 @@ class Collections extends React.Component {
             this.forceUpdate();
         }
     }
+    //this nethod will help to do sorting search data. this method is generic for sort & ordering of data
     sort = (targetName, value) => {
         let collectionObj = this.state.collectionObj;
         if(targetName == 'order'){
@@ -122,6 +127,8 @@ class Collections extends React.Component {
        
     }
     componentDidMount() {
+
+        //getting data from url parameters
         if(this.state.query){
             let filteredObj = SearchBooksFromCollections(this.state.query, this.state.category);
             this.setState({
@@ -177,7 +184,7 @@ class Collections extends React.Component {
                 <BooksView 
                     data={this.state.collectionObj}
                     collectionPage={true}
-                    query={this.state.query}
+                    query={this.state.query || 'Collection'}
                     deleteBook={this.deleteBook}
                     bookObj={bookObj}
                     updateStatus={this.updateStatus}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CustomButton, CustomText } from 'basePath/views/component/atoms/formFields';
 import { CustomUl, CustomLi, ErrorSpan, LoginDiv, BodyDiv } from 'basePath/views/component/atoms/htmlTags';
-import {setDataToLocalStorge, getDataFromLocalStorage} from 'basePath/views/component/common/utilities';
+import {setDataToLocalStorge, getDataFromLocalStorage, UserDetailObject} from 'basePath/views/component/common/utilities';
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +24,7 @@ export default class Login extends React.Component {
     handleChange = (e) => {
         let formData = this.state.formData;
         formData[e.target.name] = e.target.value.trim();
-        this.setState(formData);
+        this.setState(formData); //updating username nd password field  value in state
     }
     
     validation = (cb) => {
@@ -48,21 +48,18 @@ export default class Login extends React.Component {
         });
     }
     submit = () => {
-        
+        //Call method on LOgin Form Submission
         let status = false;
-        this.validation(() => {
+        this.validation(() => { //check basic JAvascript Validation 
             if(this.userDetails[this.state.formData.username] == this.state.formData.password){
                 status = true;
-                setDataToLocalStorge('login', this.state.formData.username);
-                let userDetailObj = getDataFromLocalStorage(this.state.formData.username);
+                setDataToLocalStorge('login', this.state.formData.username); //set login details in Local Storage
+                let userDetailObj = getDataFromLocalStorage(this.state.formData.username); //
                 if(!userDetailObj) {
-                    let userObj = {
-                        bookObj: {
-                            readingStatus: {},
-                            ratings: {}
-                        }
-                    }
-                    setDataToLocalStorge(this.state.formData.username, userObj);
+                    setDataToLocalStorge(this.state.formData.username, UserDetailObject); //setting user detail object which store user related information
+                } else {
+                    userDetailObj.value.loginCounter = userDetailObj.value.loginCounter+1; //updating login Count for User history
+                    setDataToLocalStorge(this.state.formData.username, userDetailObj.value);
                 }
                 this.props.history.push('/');
             } else {

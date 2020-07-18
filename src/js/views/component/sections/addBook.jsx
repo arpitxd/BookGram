@@ -2,6 +2,9 @@ import React from 'react';
 import {setDataToLocalStorge, getDataFromLocalStorage} from 'basePath/views/component/common/utilities';
 import Modal from 'basePath/views/component/common/modal';
 import { CustomButton, CustomText } from 'basePath/views/component/atoms/formFields';
+
+
+//this class is using for add book
 export default class AddBook extends React.Component {
     constructor(props){
         super(props);
@@ -9,24 +12,24 @@ export default class AddBook extends React.Component {
             showMoreDetailForm: false
         };
     }
-    uploadBook = (e) => {
+    uploadBook = (e) => { //uploading booking in local storage
         let collectionObj = getDataFromLocalStorage('collections');
         let collectionArr = [];
         if(collectionObj){
             collectionArr = collectionObj.value;
         } 
         const id = (new Date()).getTime();
-        let path = (window.URL || window.webkitURL).createObjectURL(this.state.fileData);
+        let path = (window.URL || window.webkitURL).createObjectURL(this.state.fileData); //file download path
         let bookObj= {};
         for(let elm of e.target.elements){
             bookObj[elm.name] = elm.value;
             if(elm.name == 'title'){
                 let titleTag = elm.value.split(' ').join(',').split(','); 
-                bookObj.titleTag = titleTag;
+                bookObj.titleTag = titleTag; //creating titile tags array for searching
             }
             if(elm.name == 'author'){
                 let authorTag = elm.value.split(' ').join(',').split(','); 
-                bookObj.authorTag = authorTag;
+                bookObj.authorTag = authorTag; //creating author tags for searching
             }
             
         }
@@ -39,9 +42,23 @@ export default class AddBook extends React.Component {
             showMoreDetailForm: false
         });
         collectionArr.push(bookObj);
+        
         setDataToLocalStorge('collections', collectionArr);
+        this.updateUserHistory();
     }
-    onChangeEvent = (e) => {
+    updateUserHistory = () => { //udating user uploading history after two login
+        const userName = getDataFromLocalStorage('login').value;
+        let userDetailObj = getDataFromLocalStorage(userName);
+        if(userDetailObj.value.loginCounter > 2){
+            let key = (new Date()).getTime();
+            let userHistory = {
+                [key]: `Book ${this.state.fileName} uploaded at ${new Date()}`
+            };
+            userDetailObj.value.lastHistory = userHistory;
+            setDataToLocalStorge(userName, userDetailObj.value);
+        }
+    }
+    onChangeEvent = (e) => { //updating file data into state
         e.preventDefault();
         if (event.target.files.length == 1) {
             let fileData = event.target.files[0];
@@ -59,7 +76,7 @@ export default class AddBook extends React.Component {
             });
         }
     }
-    togglePopup = () => {
+    togglePopup = () => { //toggling add book form
         let status = !this.state.showMoreDetailForm
         this.setState({
             showMoreDetailForm: status

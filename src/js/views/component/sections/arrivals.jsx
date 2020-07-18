@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { getLatestBook} from 'basePath/state/actions/latestBooks/lastestbook-action';
 import BooksView from 'basePath/views/component/common/booksView';
 import Loading from 'basePath/views/component/common/loader';
+
+//this class will give top 10 latest books
 class Arrivals extends React.Component {
     constructor(props){
         super(props);

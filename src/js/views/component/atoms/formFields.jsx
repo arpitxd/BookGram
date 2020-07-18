@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import React from 'react';
 import { Button } from 'basePath/views/component/atoms/htmlTags';
 
+
+// this class will give generic form fields
 export function CustomButton(props){
     return (
         <Button type={props.type} onClick={props.onClick} {...props}>{props.value}</Button>

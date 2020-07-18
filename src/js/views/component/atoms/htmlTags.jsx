@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-
+//this class contain generic html div with styled css
 export const Button = styled.button`
   box-shadow: 0 4px 4px 0 rgba(0,0,0,0.21);
   border-radius: 4px;

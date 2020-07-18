@@ -66,6 +66,8 @@ const ModalChildren = styled.div`
     margin-top: 10px;
     margin-bottom: 30px;
 `;
+
+//this class is generic Modal just need to send HEder, close function, save function and modal content
 export default function Modal(props) {
     const {
         modalHeader,
